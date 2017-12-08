@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Input, Label } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+
 
 
 class NewEntry extends Component {
@@ -10,12 +12,14 @@ class NewEntry extends Component {
       text: '',
       text1: '',
       text2: '',
-      text3: ''
+      text3: '',
+      userId: 'not'
     }
     this.savestate = this.savestate.bind(this);
     this.titleInputChangeHandler = this.titleInputChangeHandler.bind(this);
     this.codeInputChangeHandler = this.codeInputChangeHandler.bind(this);
     this.commentsInputChangeHandler = this.commentsInputChangeHandler.bind(this);
+    this.stateSetter = this.stateSetter.bind(this);
   }
 
   savestate(){
@@ -33,7 +37,7 @@ class NewEntry extends Component {
         title: this.state.text
       })
     });
-    console.warn("saved");
+    console.alert("saved");
   }
 
   // Updates title whenever the title input is changed
@@ -51,31 +55,51 @@ class NewEntry extends Component {
     this.setState({ text2: event.target.value });
   }
 
+  stateSetter(){
+    this.setState({ userId: this.props.location.state.test });
+  }
+
 
   render(){
-    return(
-      <div className='NewEntry'>
-        <h3>Title:</h3>
-        <Input
-          className='entryInputClass'
-          onChange={this.titleInputChangeHandler}
-          value={this.state.text} />
-        <h3>Code:</h3>
-        <Input
-          className='entryInputClass'
-          onChange={this.codeInputChangeHandler}
-          value={this.state.text1}
-          size= 'large' />
-        <h3>Comments:</h3>
-        <Input
-          className='entryInputClass'
-          onChange={this.commentsInputChangeHandler}
-          value={this.state.text2} />
-        <h3>Language:</h3>
-          {/* TODO: picker */}
-        <Button className="ui button" role="button" onClick={this.savestate}>SAVE</Button>
-      </div>
-    )
+    //console.log(this.props.location.state.test);
+    //console.log(this.state.userId);
+    //console.log('s');
+    //console.log(this.props.location );
+    //console.log(!this.props.location.state);
+    if(!this.props.location.state){
+      return(
+             <Link to={{pathname:`/`}}>Log In</Link>
+           )
+    }
+    else{
+      if(this.state.userId != 'not'){
+        this.stateSetter();
+        console.log(this.state);
+      }
+      return(
+        <div className='NewEntry'>
+          <h3>Title:</h3>
+          <Input
+            className='entryInputClass'
+            onChange={this.titleInputChangeHandler}
+            value={this.state.text} />
+          <h3>Code:</h3>
+          <Input
+            className='entryInputClass'
+            onChange={this.codeInputChangeHandler}
+            value={this.state.text1}
+            size= 'large' />
+          <h3>Comments:</h3>
+          <Input
+            className='entryInputClass'
+            onChange={this.commentsInputChangeHandler}
+            value={this.state.text2} />
+          <h3>Language:</h3>
+            {/* TODO: picker */}
+          <Button className="ui button" role="button" onClick={this.savestate}>SAVE</Button>
+        </div>
+      )
+    }
   }
 }
 

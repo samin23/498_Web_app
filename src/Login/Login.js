@@ -3,13 +3,16 @@ import { Button, Input, Label } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
 import { FireVar } from '../Firebase/FirebaseConfig.js';
 import PasswordMask from 'react-password-mask';
+import { Route, HashRouter as Router, Switch, Redirect } from 'react-router-dom';
+import NewEntry from '../NewEntry/NewEntry.js';
+
 
 // import styles from './Search.scss'
 
 class Login extends Component {
-  constructor(){
-    super();
-    this.state = { email: '', password: '', status: ''}
+  constructor(props){
+    super(props);
+    this.state = { email: '', password: '', status: '',redirect: false}
     this.login = this.login.bind(this)
     this.register = this.register.bind(this)
     this.emailInputChangeHandler = this.emailInputChangeHandler.bind(this)
@@ -18,10 +21,7 @@ class Login extends Component {
 
   login(){
     FireVar.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .then(function(firebaseUser) {
-      console.log("logged in successfully")
-      //Actions.addEntryPage()
-    })
+    .then(() => this.setState({ redirect: true }))
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = (error.code);
@@ -75,6 +75,14 @@ class Login extends Component {
   }
 
   render(){
+    const { redirect } = this.state;
+    if (redirect) {
+      console.log(FireVar.auth().currentUser.uid);
+      return (<Redirect to={{
+                pathname: '/NewEntry',
+                state: { test: FireVar.auth().currentUser.uid}
+            }} />)
+    }
       return(
           <div className='Login'>
               <h1>Login</h1>
