@@ -19,10 +19,10 @@ class NewEntry extends Component {
     this.titleInputChangeHandler = this.titleInputChangeHandler.bind(this);
     this.codeInputChangeHandler = this.codeInputChangeHandler.bind(this);
     this.commentsInputChangeHandler = this.commentsInputChangeHandler.bind(this);
-    this.stateSetter = this.stateSetter.bind(this);
   }
 
   savestate(){
+    console.log(this.state)
     fetch("http://165.227.123.227:4001/api/code", {
       method: "POST",
       headers: {
@@ -30,7 +30,7 @@ class NewEntry extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        firebaseID: this.props.userId,
+        firebaseID: this.props.location.state.test,
         language: this.state.text3,
         code: this.state.text1,
         comment: this.state.text2,
@@ -55,9 +55,7 @@ class NewEntry extends Component {
     this.setState({ text2: event.target.value });
   }
 
-  stateSetter(){
-    this.setState({ userId: this.props.location.state.test });
-  }
+
 
 
   render(){
@@ -72,10 +70,8 @@ class NewEntry extends Component {
            )
     }
     else{
-      if(this.state.userId != 'not'){
-        this.stateSetter();
-        console.log(this.state);
-      }
+      //this.stateSetter();
+
       return(
         <div className='NewEntry'>
           <h3>Title:</h3>
