@@ -42,7 +42,7 @@ class Login extends Component {
     .then(async function(firebaseUser) {
       var user = FireVar.auth().currentUser;
       console.log("registered successfully")
-      await fetch("http://localhost:4000/api/user", {
+      await fetch("http://165.227.123.227:4001/api/user", {
         method: "POST",
         headers: {
         "Content-Type": "application/json"
@@ -52,9 +52,9 @@ class Login extends Component {
           email: user.email
         })
       });
-      window.location.assign('NewEntry');
       // Actions.addEntryPage()
     })
+    .then(() => this.setState({ redirect: true }))
     .catch(function(error) {
       // Handle Errors here.
       var errorMessage = (error.message);

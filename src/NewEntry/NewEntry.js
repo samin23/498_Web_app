@@ -23,21 +23,21 @@ class NewEntry extends Component {
   }
 
   savestate(){
-    fetch("http://localhost:4000/api/code", {
+    fetch("http://165.227.123.227:4001/api/code", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        firebaseID: this.props.user,
+        firebaseID: this.props.userId,
         language: this.state.text3,
         code: this.state.text1,
         comment: this.state.text2,
         title: this.state.text
       })
     });
-    console.alert("saved");
+    console.log("saved");
   }
 
   // Updates title whenever the title input is changed
